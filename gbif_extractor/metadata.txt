@@ -1,0 +1,25 @@
+[general]
+name=GBIF Extractor
+about=This plugin allow to download GBIF data.
+category=Database
+hasProcessingProvider=False
+description=Based on an extent, the user can download GBIF data.
+icon=resources/images/default_icon.png
+tags=GBIF,environnement,data,download
+
+# credits and contact
+author=Jules GRILLOT
+email=jules.grillot@etik.com
+homepage=r
+repository=r
+tracker=r/issues/
+
+# experimental flag
+deprecated=False
+experimental=True
+qgisMinimumVersion=3.28
+qgisMaximumVersion=3.99
+
+# versioning
+version=0.1.0
+changelog=
