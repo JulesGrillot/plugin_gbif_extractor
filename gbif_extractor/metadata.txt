@@ -10,9 +10,9 @@ tags=GBIF,environnement,data,download
 # credits and contact
 author=Jules GRILLOT
 email=jules.grillot@etik.com
-homepage=r
-repository=r
-tracker=r/issues/
+homepage=https://julesgrillot.github.io/plugin_gbif_extractor/
+repository=https://github.com/JulesGrillot/plugin_gbif_extractor
+tracker=https://github.com/JulesGrillot/plugin_gbif_extractor/issues
 
 # experimental flag
 deprecated=False
@@ -23,3 +23,14 @@ qgisMaximumVersion=3.99
 # versioning
 version=0.1.0
 changelog=
+
+[wfs]
+plugin_name=GBIF_Extractor
+name=GBIF
+uri=https://data.geopf.fr/wfs/ows
+schema=Gbif_V3
+geometry=geometrie
+crs=4326
+metadata=https://www.gbif.org/what-is-gbif
+producer=https://www.gbif.org
+logo=resources/images/logo.png

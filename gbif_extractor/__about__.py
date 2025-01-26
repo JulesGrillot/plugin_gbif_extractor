@@ -63,7 +63,9 @@ __plugin_md__: dict = plugin_metadata_as_dict()
 __author__: str = __plugin_md__.get("general").get("author")
 __copyright__: str = "2024 - {0}, {1}".format(date.today().year, __author__)
 __email__: str = __plugin_md__.get("general").get("email")
-__icon_path__: Path = DIR_PLUGIN_ROOT.resolve() / __plugin_md__.get("general").get("icon")
+__icon_path__: Path = DIR_PLUGIN_ROOT.resolve() / __plugin_md__.get("general").get(
+    "icon"
+)
 __keywords__: list = [
     t.strip() for t in __plugin_md__.get("general").get("repository").split("tags")
 ]
@@ -88,6 +90,15 @@ __version_info__: tuple = tuple(
         for num in __version__.replace("-", ".", 1).split(".")
     ]
 )
+
+__wfs_name__: str = __plugin_md__.get("wfs").get("name")
+__wfs_uri__: str = __plugin_md__.get("wfs").get("uri")
+__wfs_schema__: str = __plugin_md__.get("wfs").get("schema")
+__wfs_crs__: str = __plugin_md__.get("wfs").get("crs")
+__wfs_geometry__: str = __plugin_md__.get("wfs").get("geometry")
+__wfs_metadata__: str = __plugin_md__.get("wfs").get("metadata")
+__wfs_credit__: str = __plugin_md__.get("wfs").get("producer")
+__wfs_logo__: Path = DIR_PLUGIN_ROOT.resolve() / __plugin_md__.get("wfs").get("logo")
 
 # #############################################################################
 # ##### Main #######################
