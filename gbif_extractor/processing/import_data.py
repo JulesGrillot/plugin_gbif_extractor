@@ -18,6 +18,7 @@ class ImportData(QObject):
         project=None,
         layer=None,
         rectangle=None,
+        dlg=None
     ):
         super().__init__()
 
@@ -27,6 +28,7 @@ class ImportData(QObject):
         self.project = project
         self.layer = layer
         self.geom = QgsGeometry().fromRect(rectangle)
+        self.dlg = dlg
 
         self.new_features = []
 
@@ -62,59 +64,67 @@ class ImportData(QObject):
                 print("Service down")
         else:
             data_request = reply.readAll().data().decode()
-            print(data_request)
             if self.pending_downloads == 0:
                 res = json.loads(data_request)
-                self.max_obs = res["count"]
-                self.total_pages = int(self.max_obs / 20) + 1
+                if self.pending_pages == 1:
+                    self.max_obs = res["count"]
+                    self.total_pages = int(self.max_obs / 20) + 1
+                    self.dlg.thread.set_max(self.total_pages)
+                    self.dlg.thread.add_one(self.pending_pages)
+                    self.dlg.select_progress_bar_label.setText(
+                        self.tr("Downloaded data : " + str(1) + "/" + str(self.total_pages))
+                    )
                 for obs in res["results"]:
-                    print(list(obs.keys()))
                     new_geom = QgsGeometry.fromPointXY(
                         QgsPointXY(obs["decimalLongitude"], obs["decimalLatitude"])
                     )
                     new_feature = QgsFeature(self.layer.fields())
                     new_feature.setGeometry(new_geom)
                     new_feature.setAttribute(0, str(obs["key"]))
-                    new_feature.setAttribute(1, str(obs["acceptedTaxonKey"]))
+                    new_feature.setAttribute(1, obs["taxonRank"])
+                    new_feature.setAttribute(2, obs["kingdom"])
+                    new_feature.setAttribute(3, obs["phylum"])
+                    new_feature.setAttribute(4, obs["order"])
+                    new_feature.setAttribute(5, obs["family"])
+                    new_feature.setAttribute(6, obs["genus"])
+                    new_feature.setAttribute(7, obs["species"])
+                    new_feature.setAttribute(8, str(obs["acceptedTaxonKey"]))
                     if "taxonID" in list(obs.keys()):
-                        new_feature.setAttribute(2, str(obs["taxonID"]))
+                        new_feature.setAttribute(9, str(obs["taxonID"]))
                     else:
-                        new_feature.setAttribute(2, "")
-                    new_feature.setAttribute(3, obs["taxonRank"])
-                    if obs["taxonRank"].lower() in [
-                        "kingdom",
-                        "phylum",
-                        "order",
-                        "family",
-                        "genus",
-                        "species",
-                    ]:
-                        new_feature.setAttribute(4, obs[obs["taxonRank"].lower()])
-
+                        new_feature.setAttribute(9, "")
+                    if obs["taxonRank"] == "SUBSPECIES":
+                        print(obs)
+                    if "acceptedScientificName" in list(obs.keys()):
+                        new_feature.setAttribute(10, obs["acceptedScientificName"])
                     else:
-                        new_feature.setAttribute(5, obs["acceptedScientificName"])
-                    if "originalNameUsage" in list(obs.keys()):
-                        new_feature.setAttribute(6, str(obs["originalNameUsage"]))
+                        new_feature.setAttribute(10, "")
+                    if "recordedBy" in list(obs.keys()):
+                        new_feature.setAttribute(11, str(obs["recordedBy"]))
                     else:
-                        new_feature.setAttribute(6, "")
-                    new_feature.setAttribute(7, str(obs["recordedBy"]))
+                        new_feature.setAttribute(11, "")
+                    
                     if "identifiedBy" in list(obs.keys()):
-                        new_feature.setAttribute(8, str(obs["identifiedBy"]))
+                        new_feature.setAttribute(12, str(obs["identifiedBy"]))
                     else:
                         new_feature.setAttribute(
-                            8, str(list(obs["identifiers"].values()))
+                            12, str([d["identifier"] for d in obs["identifiers"] if "identifier" in d])
                         )
 
-                    new_feature.setAttribute(8, str(obs["eventDate"]))
-                    new_feature.setAttribute(9, obs["_publishingOrgKey"]["title"])
-                    new_feature.setAttribute(10, obs["_datasetKey"]["title"])
-                    new_feature.setAttribute(11, 1)
+                    new_feature.setAttribute(13, str(obs["eventDate"]))
+                    new_feature.setAttribute(14, obs["_publishingOrgKey"]["title"])
+                    new_feature.setAttribute(15, obs["_datasetKey"]["title"])
+                    new_feature.setAttribute(16, 1)
                     new_feature.setAttribute(
-                        12, "https://www.gbif.org/fr/occurrence/" + str(obs["key"])
+                        17, "https://www.gbif.org/fr/occurrence/" + str(obs["key"])
                     )
                     self.new_features.append(new_feature)
 
                 if self.pending_pages < self.total_pages:
+                    self.dlg.thread.add_one(self.pending_pages)
+                    self.dlg.select_progress_bar_label.setText(
+                        self.tr("Downloaded data : " + str(self.pending_pages) + "/" + str(self.total_pages))
+                    )
                     self._pending_pages += 20
                     self.download()
                 else:

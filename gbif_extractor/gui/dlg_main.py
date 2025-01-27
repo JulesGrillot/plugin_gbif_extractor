@@ -165,12 +165,6 @@ class GbifExtractorDialog(QDialog):
         self.layout.addLayout(self.extent_layout)
         self.layout.insertSpacing(100, 25)
 
-        # Select if you need taxref id
-        self.select_taxref_info_checkbox = QCheckBox(self)
-        self.select_taxref_info_checkbox.setChecked(False)
-        self.select_taxref_info_checkbox.setText(self.tr("Add TaxRef Id"))
-        self.layout.addWidget(self.select_taxref_info_checkbox)
-
         # Geom predicat
         self.geom_layout = QGridLayout()
         self.geom_button_group = QButtonGroup(self)
@@ -196,8 +190,14 @@ class GbifExtractorDialog(QDialog):
         self.geom_layout.addWidget(self.crs_selector, 1, 1)
         self.layout.addLayout(self.geom_layout)
 
-        # Add result to project
+        
         self.result_layout = QVBoxLayout()
+        # Output folder selection
+        self.save_result_checkbox = QCheckBox(self)
+        self.save_result_checkbox.setText(self.tr("Save the results :"))
+        self.result_layout.addWidget(self.save_result_checkbox)
+
+        # Add result to project
         self.add_to_project_checkbox = QCheckBox(self)
         self.add_to_project_checkbox.setText(
             self.tr("Add exported data to the project")
@@ -205,11 +205,6 @@ class GbifExtractorDialog(QDialog):
         self.add_to_project_checkbox.setChecked(True)
         self.add_to_project_checkbox.setEnabled(False)
         self.result_layout.addWidget(self.add_to_project_checkbox)
-
-        # Output folder selection
-        self.save_result_checkbox = QCheckBox(self)
-        self.save_result_checkbox.setText(self.tr("Save the results :"))
-        self.result_layout.addWidget(self.save_result_checkbox)
 
         # Output format
         self.format_layout = QHBoxLayout()
@@ -490,8 +485,8 @@ class Thread(QThread):
     def set_max(self, max_value):
         self.max_value = max_value
 
-    def add_one(self):
-        self.value = self.value + 1
+    def add_one(self, to_add):
+        self.value = to_add
         self._signal.emit(int((self.value / self.max_value) * 100))
 
     def finish(self):

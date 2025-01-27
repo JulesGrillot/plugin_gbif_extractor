@@ -272,22 +272,25 @@ class GbifExtractorPlugin:
         for button in self.dlg.geom_button_group.buttons():
             if button.isChecked():
                 result_geometry = button.accessibleName()
-        # TO DO
-        max = 100
-        # Set the ProgressBar
-        self.dlg.thread.set_max(max)
+
         geom_type = "Point"
         self.new_layer = QgsVectorLayer(geom_type + "?crs=epsg:4326", "GBIF", "memory")
         self.new_layer.startEditing()
         self.new_layer.addAttribute(QgsField("id", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("niveau", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("regne", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("phylum", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("ordre", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("famille", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("genre", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("espece", QVariant.String, "string", 254))
         self.new_layer.addAttribute(
             QgsField("id_tax_gbif", QVariant.String, "string", 254)
         )
         self.new_layer.addAttribute(
             QgsField("id_tax_local", QVariant.String, "string", 254)
         )
-        self.new_layer.addAttribute(QgsField("niveau", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("nom", QVariant.String, "string", 254))
+        
         self.new_layer.addAttribute(
             QgsField("nom_scien", QVariant.String, "string", 100000)
         )
@@ -308,7 +311,7 @@ class GbifExtractorPlugin:
         self.new_layer.triggerRepaint()
 
         import_data = ImportData(
-            self.manager, self.project, self.new_layer, self.dlg.extent
+            self.manager, self.project, self.new_layer, self.dlg.extent, self.dlg
         )
         import_data.finished_dl.connect(self.finished_import)
 
