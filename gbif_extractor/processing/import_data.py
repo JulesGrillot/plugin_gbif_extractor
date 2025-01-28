@@ -4,7 +4,7 @@ import json
 # Import PyQt libs
 from PyQt5.QtCore import QObject, QUrl, pyqtSignal
 from PyQt5.QtNetwork import QNetworkReply, QNetworkRequest
-from qgis.core import QgsFeature, QgsGeometry, QgsPointXY
+from qgis.core import NULL, QgsFeature, QgsGeometry, QgsPointXY
 
 
 class ImportData(QObject):
@@ -13,17 +13,13 @@ class ImportData(QObject):
     List all layers available, get the maximal extent of all the Wfs' data."""
 
     def __init__(
-        self,
-        network_manager=None,
-        project=None,
-        layer=None,
-        rectangle=None,
-        dlg=None
+        self, network_manager=None, project=None, layer=None, rectangle=None, dlg=None
     ):
         super().__init__()
 
         self._pending_downloads = 0
-        self._pending_pages = 1
+        self._pending_pages = 0
+        self._pending_count = 0
         self.network_manager = network_manager
         self.project = project
         self.layer = layer
@@ -45,9 +41,13 @@ class ImportData(QObject):
     def pending_pages(self):
         return self._pending_pages
 
+    @property
+    def pending_count(self):
+        return self._pending_count
+
     def download(self):
         url = "https://www.gbif.org/api/occurrence/search?advanced=false&geometry={polygon}&offset={offset}".format(
-            offset=self.pending_pages, polygon=self.geom.asWkt()
+            offset=self.pending_count, polygon=self.geom.asWkt()
         )
         url = QUrl(url)
         request = QNetworkRequest(url)
@@ -66,13 +66,13 @@ class ImportData(QObject):
             data_request = reply.readAll().data().decode()
             if self.pending_downloads == 0:
                 res = json.loads(data_request)
-                if self.pending_pages == 1:
+                if self.pending_pages == 0:
                     self.max_obs = res["count"]
                     self.total_pages = int(self.max_obs / 20) + 1
                     self.dlg.thread.set_max(self.total_pages)
                     self.dlg.thread.add_one(self.pending_pages)
                     self.dlg.select_progress_bar_label.setText(
-                        self.tr("Downloaded data : " + str(1) + "/" + str(self.total_pages))
+                        self.tr("Downloaded data : " + str(0) + "/" + str(self.max_obs))
                     )
                 for obs in res["results"]:
                     new_geom = QgsGeometry.fromPointXY(
@@ -80,52 +80,115 @@ class ImportData(QObject):
                     )
                     new_feature = QgsFeature(self.layer.fields())
                     new_feature.setGeometry(new_geom)
-                    new_feature.setAttribute(0, str(obs["key"]))
-                    new_feature.setAttribute(1, obs["taxonRank"])
-                    new_feature.setAttribute(2, obs["kingdom"])
-                    new_feature.setAttribute(3, obs["phylum"])
-                    new_feature.setAttribute(4, obs["order"])
-                    new_feature.setAttribute(5, obs["family"])
-                    new_feature.setAttribute(6, obs["genus"])
-                    new_feature.setAttribute(7, obs["species"])
-                    new_feature.setAttribute(8, str(obs["acceptedTaxonKey"]))
+                    field_index = 0
+                    new_feature.setAttribute(field_index, str(obs["key"]))
+                    field_index += 1
+                    new_feature.setAttribute(field_index, str(obs["occurrenceStatus"]))
+                    field_index += 1
+                    new_feature.setAttribute(field_index, obs["taxonRank"])
+                    field_index += 1
+                    if "kingdom" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["kingdom"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "phylum" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["phylum"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "class" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["class"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "order" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["order"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "family" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["family"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "genus" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["genus"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    if "species" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, obs["species"])
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    new_feature.setAttribute(field_index, str(obs["acceptedTaxonKey"]))
+                    field_index += 1
                     if "taxonID" in list(obs.keys()):
-                        new_feature.setAttribute(9, str(obs["taxonID"]))
+                        new_feature.setAttribute(field_index, str(obs["taxonID"]))
                     else:
-                        new_feature.setAttribute(9, "")
-                    if obs["taxonRank"] == "SUBSPECIES":
-                        print(obs)
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
                     if "acceptedScientificName" in list(obs.keys()):
-                        new_feature.setAttribute(10, obs["acceptedScientificName"])
+                        new_feature.setAttribute(
+                            field_index, obs["acceptedScientificName"]
+                        )
                     else:
-                        new_feature.setAttribute(10, "")
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
                     if "recordedBy" in list(obs.keys()):
-                        new_feature.setAttribute(11, str(obs["recordedBy"]))
+                        new_feature.setAttribute(field_index, str(obs["recordedBy"]))
                     else:
-                        new_feature.setAttribute(11, "")
-                    
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
                     if "identifiedBy" in list(obs.keys()):
-                        new_feature.setAttribute(12, str(obs["identifiedBy"]))
+                        new_feature.setAttribute(field_index, str(obs["identifiedBy"]))
                     else:
                         new_feature.setAttribute(
-                            12, str([d["identifier"] for d in obs["identifiers"] if "identifier" in d])
+                            field_index,
+                            str(
+                                [
+                                    d["identifier"]
+                                    for d in obs["identifiers"]
+                                    if "identifier" in d
+                                ]
+                            ),
                         )
-
-                    new_feature.setAttribute(13, str(obs["eventDate"]))
-                    new_feature.setAttribute(14, obs["_publishingOrgKey"]["title"])
-                    new_feature.setAttribute(15, obs["_datasetKey"]["title"])
-                    new_feature.setAttribute(16, 1)
+                    field_index += 1
+                    new_feature.setAttribute(field_index, str(obs["eventDate"]))
+                    field_index += 1
                     new_feature.setAttribute(
-                        17, "https://www.gbif.org/fr/occurrence/" + str(obs["key"])
+                        field_index, obs["_publishingOrgKey"]["title"]
                     )
+                    field_index += 1
+                    new_feature.setAttribute(field_index, obs["_datasetKey"]["title"])
+                    field_index += 1
+                    if "informationWithheld" in list(obs.keys()):
+                        new_feature.setAttribute(
+                            field_index, str(obs["informationWithheld"])
+                        )
+                    else:
+                        new_feature.setAttribute(field_index, NULL)
+                    field_index += 1
+                    new_feature.setAttribute(
+                        field_index,
+                        "https://www.gbif.org/fr/occurrence/" + str(obs["key"]),
+                    )
+                    field_index += 1
                     self.new_features.append(new_feature)
 
                 if self.pending_pages < self.total_pages:
                     self.dlg.thread.add_one(self.pending_pages)
                     self.dlg.select_progress_bar_label.setText(
-                        self.tr("Downloaded data : " + str(self.pending_pages) + "/" + str(self.total_pages))
+                        self.tr(
+                            "Downloaded data : "
+                            + str(self.pending_count)
+                            + "/"
+                            + str(self.max_obs)
+                        )
                     )
-                    self._pending_pages += 20
+                    self._pending_pages += 1
+                    self._pending_count += 20
                     self.download()
                 else:
                     # Add the new feature to the temporary layer

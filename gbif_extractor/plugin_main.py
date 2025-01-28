@@ -205,7 +205,7 @@ class GbifExtractorPlugin:
             self.dlg = GbifExtractorDialog(
                 self.project, self.iface, self.url, self.manager
             )
-            self.dlg.show()
+            self.dlg.activate_window()
             # If there is no layers, an OSM layer is added
             # to simplify the rectangle drawing
             if len(self.project.instance().mapLayers()) == 0:
@@ -228,7 +228,7 @@ class GbifExtractorPlugin:
         # If the plugin is already launched, clicking on the plugin icon will
         # put back the window on top
         else:
-            self.dlg.activateWindow()
+            self.dlg.activate_window()
 
     def processing(self):
         """Processing chain if the dialog is accepted
@@ -238,7 +238,7 @@ class GbifExtractorPlugin:
 
         """
         # Show the dialog back for the ProgressBar
-        self.dlg.show()
+        self.dlg.activate_window()
 
         # Creation of the folder name
         today = datetime.datetime.now()
@@ -277,36 +277,42 @@ class GbifExtractorPlugin:
         self.new_layer = QgsVectorLayer(geom_type + "?crs=epsg:4326", "GBIF", "memory")
         self.new_layer.startEditing()
         self.new_layer.addAttribute(QgsField("id", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("niveau", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("regne", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(
+            QgsField("occurence_statuts", QVariant.String, "string", 254)
+        )
+        self.new_layer.addAttribute(QgsField("rank", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("kingdom", QVariant.String, "string", 254))
         self.new_layer.addAttribute(QgsField("phylum", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("ordre", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("famille", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("genre", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("espece", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("class", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("order", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("family", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("genus", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("species", QVariant.String, "string", 254))
         self.new_layer.addAttribute(
             QgsField("id_tax_gbif", QVariant.String, "string", 254)
         )
         self.new_layer.addAttribute(
             QgsField("id_tax_local", QVariant.String, "string", 254)
         )
-        
+
+        self.new_layer.addAttribute(QgsField("name", QVariant.String, "string", 100000))
         self.new_layer.addAttribute(
-            QgsField("nom_scien", QVariant.String, "string", 100000)
+            QgsField("observer", QVariant.String, "string", 254)
         )
         self.new_layer.addAttribute(
-            QgsField("observat", QVariant.String, "string", 254)
-        )
-        self.new_layer.addAttribute(
-            QgsField("identifi", QVariant.String, "string", 254)
+            QgsField("identifier", QVariant.String, "string", 254)
         )
         self.new_layer.addAttribute(QgsField("date", QVariant.String, "string", 254))
         self.new_layer.addAttribute(
-            QgsField("organisme", QVariant.String, "string", 254)
+            QgsField("institution", QVariant.String, "string", 254)
         )
-        self.new_layer.addAttribute(QgsField("projet", QVariant.String, "string", 254))
-        self.new_layer.addAttribute(QgsField("effectif", QVariant.Int, "integer", 10))
-        self.new_layer.addAttribute(QgsField("url", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(QgsField("project", QVariant.String, "string", 254))
+        self.new_layer.addAttribute(
+            QgsField("information", QVariant.String, "string", 254)
+        )
+        self.new_layer.addAttribute(
+            QgsField("gbif_url", QVariant.String, "string", 254)
+        )
         self.new_layer.commitChanges()
         self.new_layer.triggerRepaint()
 

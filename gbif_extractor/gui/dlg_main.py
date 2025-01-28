@@ -190,7 +190,6 @@ class GbifExtractorDialog(QDialog):
         self.geom_layout.addWidget(self.crs_selector, 1, 1)
         self.layout.addLayout(self.geom_layout)
 
-        
         self.result_layout = QVBoxLayout()
         # Output folder selection
         self.save_result_checkbox = QCheckBox(self)
@@ -458,11 +457,13 @@ class GbifExtractorDialog(QDialog):
     def pointer(self):
         # Add the tool to draw a rectangle
         # self.setVisible(False)
+        self.showMinimized()
         self.iface.mainWindow().activateWindow()
         self.canvas.setMapTool(self.rectangle_tool)
 
     def activate_window(self):
         # Put the dialog on top once the rectangle is drawn
+        self.showNormal()
         self.activateWindow()
         self.rectangle = True
         self.check_path()
