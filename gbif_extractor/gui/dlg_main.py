@@ -37,13 +37,12 @@ from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QMessageBox, QPushBut
 
 # project
 from gbif_extractor.__about__ import (
+    __service_credit__,
+    __service_crs__,
+    __service_logo__,
+    __service_metadata__,
+    __service_name__,
     __uri_homepage__,
-    __wfs_credit__,
-    __wfs_crs__,
-    __wfs_logo__,
-    __wfs_metadata__,
-    __wfs_name__,
-    __wfs_schema__,
 )
 from gbif_extractor.processing import RectangleDrawTool
 
@@ -53,7 +52,7 @@ from gbif_extractor.processing import RectangleDrawTool
 
 
 class GbifExtractorDialog(QDialog):
-    def __init__(self, project=None, iface=None, url=None, manager=None):
+    def __init__(self, project=None, iface=None, manager=None):
         """Constructor.
         :param
         project: The current QGIS project instance
@@ -63,19 +62,17 @@ class GbifExtractorDialog(QDialog):
         url: The wfs url
         """
         super(GbifExtractorDialog, self).__init__()
-        self.setObjectName("{} Extractor".format(__wfs_name__))
+        self.setObjectName("{} Extractor".format(__service_name__))
 
         self.iface = iface
         self.project = project
-        self.url = url
         self.manager = manager
         self.canvas = self.iface.mapCanvas()
 
         self.layer = None
         self.rectangle = None
-        self.schema = __wfs_schema__
 
-        self.setWindowTitle("{} Extractor".format(__wfs_name__))
+        self.setWindowTitle("{} Extractor".format(__service_name__))
 
         self.layout = QVBoxLayout()
         extent_check_group = QButtonGroup(self)
@@ -88,10 +85,10 @@ class GbifExtractorDialog(QDialog):
         credit_label.setText(self.tr("Data provided by :"))
         self.layout.addWidget(credit_label)
 
-        pixmap = QPixmap(str(__wfs_logo__))
-        # pixmap.loadFromData(requests.get(__wfs_logo__).content)
+        pixmap = QPixmap(str(__service_logo__))
+        # pixmap.loadFromData(requests.get(__service_logo__).content)
         self.producer_label = QToolButton(self)
-        self.producer_label.setObjectName(__wfs_credit__)
+        self.producer_label.setObjectName(__service_credit__)
         icon = QIcon()
         icon.addPixmap(pixmap)
         self.producer_label.setIcon(icon)
@@ -108,7 +105,7 @@ class GbifExtractorDialog(QDialog):
         self.doc_layout.addStretch()
 
         self.metadata_button = QPushButton(self)
-        self.metadata_button.setObjectName(__wfs_metadata__)
+        self.metadata_button.setObjectName(__service_metadata__)
         self.metadata_button.setText(self.tr("Metadata"))
         self.doc_layout.addWidget(self.metadata_button)
         widget.setLayout(self.doc_layout)
@@ -332,7 +329,7 @@ class GbifExtractorDialog(QDialog):
             transformed_extent = self.transform_crs(
                 layer.extent(),
                 layer.crs(),
-                QgsCoordinateReferenceSystem("EPSG:" + str(__wfs_crs__)),
+                QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
             )
             if self.getcapabilities.max_bounding_box.intersects(
                 transformed_extent
@@ -375,7 +372,7 @@ class GbifExtractorDialog(QDialog):
             self.extent = self.transform_crs(
                 self.layer.extent(),
                 self.layer.crs(),
-                QgsCoordinateReferenceSystem("EPSG:" + str(__wfs_crs__)),
+                QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
             )
 
     def signal_accept(self, msg):

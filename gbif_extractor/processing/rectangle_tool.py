@@ -12,7 +12,7 @@ from qgis.gui import QgsMapMouseEvent, QgsMapTool, QgsRubberBand
 from qgis.PyQt.QtWidgets import QMessageBox
 
 # project
-from gbif_extractor.__about__ import __wfs_crs__
+from gbif_extractor.__about__ import __service_crs__
 
 
 class RectangleDrawTool(QgsMapTool):
@@ -95,11 +95,11 @@ class RectangleDrawTool(QgsMapTool):
             return None
         else:
             # Rectangle reprojection
-            if str(self.project.instance().crs().postgisSrid()) != str(__wfs_crs__):
+            if str(self.project.instance().crs().postgisSrid()) != str(__service_crs__):
                 start_point = self.transform_geom(
                     QgsGeometry().fromPointXY(self.start_point),
                     self.project.instance().crs(),
-                    QgsCoordinateReferenceSystem("EPSG:" + str(__wfs_crs__)),
+                    QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
                 )
                 self.start_point = QgsPointXY(
                     start_point.asPoint().x(), start_point.asPoint().y()
@@ -107,7 +107,7 @@ class RectangleDrawTool(QgsMapTool):
                 end_point = self.transform_geom(
                     QgsGeometry().fromPointXY(self.end_point),
                     self.project.instance().crs(),
-                    QgsCoordinateReferenceSystem("EPSG:" + str(__wfs_crs__)),
+                    QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
                 )
                 self.end_point = QgsPointXY(
                     end_point.asPoint().x(), end_point.asPoint().y()
@@ -115,7 +115,7 @@ class RectangleDrawTool(QgsMapTool):
 
             drawned_rectangle = self.transform_geom(
                 QgsGeometry().fromRect(QgsRectangle(self.start_point, self.end_point)),
-                QgsCoordinateReferenceSystem("EPSG:" + str(__wfs_crs__)),
+                QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
                 self.project.crs(),
             )
             transformed_extent = drawned_rectangle.boundingBox()

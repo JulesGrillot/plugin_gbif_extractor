@@ -9,11 +9,17 @@ from qgis.core import NULL, QgsFeature, QgsGeometry, QgsPointXY
 
 class ImportData(QObject):
     finished_dl = pyqtSignal()
-    """Get multiples informations from a getcapabilities request.
-    List all layers available, get the maximal extent of all the Wfs' data."""
+    """
+    """
 
     def __init__(
-        self, network_manager=None, project=None, layer=None, rectangle=None, dlg=None
+        self,
+        network_manager=None,
+        project=None,
+        layer=None,
+        rectangle=None,
+        dlg=None,
+        url=None,
     ):
         super().__init__()
 
@@ -25,9 +31,12 @@ class ImportData(QObject):
         self.layer = layer
         self.geom = QgsGeometry().fromRect(rectangle)
         self.dlg = dlg
+        self.url = url
 
         self.new_features = []
 
+        # Obs limit by pages, default is 20
+        self.limit = 20
         self.max_obs = 0
         self.total_pages = 0
 
@@ -46,8 +55,11 @@ class ImportData(QObject):
         return self._pending_count
 
     def download(self):
-        url = "https://www.gbif.org/api/occurrence/search?advanced=false&geometry={polygon}&offset={offset}".format(
-            offset=self.pending_count, polygon=self.geom.asWkt()
+        url = "{url}?advanced=false&geometry={polygon}&offset={offset}&limit={limit}".format(
+            url=self.url,
+            offset=self.pending_count,
+            polygon=self.geom.asWkt(),
+            limit=self.limit,
         )
         url = QUrl(url)
         request = QNetworkRequest(url)
@@ -68,7 +80,7 @@ class ImportData(QObject):
                 res = json.loads(data_request)
                 if self.pending_pages == 0:
                     self.max_obs = res["count"]
-                    self.total_pages = int(self.max_obs / 20) + 1
+                    self.total_pages = int(self.max_obs / self.limit) + 1
                     self.dlg.thread.set_max(self.total_pages)
                     self.dlg.thread.add_one(self.pending_pages)
                     self.dlg.select_progress_bar_label.setText(
@@ -188,7 +200,7 @@ class ImportData(QObject):
                         )
                     )
                     self._pending_pages += 1
-                    self._pending_count += 20
+                    self._pending_count += self.limit
                     self.download()
                 else:
                     # Add the new feature to the temporary layer

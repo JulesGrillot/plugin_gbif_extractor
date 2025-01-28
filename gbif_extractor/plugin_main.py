@@ -25,11 +25,11 @@ from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from gbif_extractor.__about__ import (
     DIR_PLUGIN_ROOT,
     __icon_path__,
+    __service_name__,
+    __service_uri__,
     __title__,
     __uri_homepage__,
     __uri_tracker__,
-    __wfs_name__,
-    __wfs_uri__,
 )
 from gbif_extractor.gui.dlg_main import GbifExtractorDialog
 from gbif_extractor.gui.dlg_settings import PlgOptionsFactory
@@ -57,7 +57,7 @@ class GbifExtractorPlugin:
         self.log = PlgLogger().log
         self.provider = None
         self.pluginIsActive = False
-        self.url = __wfs_uri__
+        self.url = __service_uri__
         self.action_launch = None
 
         # translation
@@ -84,7 +84,7 @@ class GbifExtractorPlugin:
         # -- Actions
         self.action_launch = QAction(
             QIcon(str(__icon_path__)),
-            self.tr("{} Extractor".format(__wfs_name__)),
+            self.tr("{} Extractor".format(__service_name__)),
             self.iface.mainWindow(),
         )
         self.iface.addToolBarIcon(self.action_launch)
@@ -111,13 +111,13 @@ class GbifExtractorPlugin:
 
         # -- Menu
         self.iface.addPluginToMenu(
-            "{} Extractor".format(__wfs_name__), self.action_launch
+            "{} Extractor".format(__service_name__), self.action_launch
         )
         self.iface.addPluginToMenu(
-            "{} Extractor".format(__wfs_name__), self.action_settings
+            "{} Extractor".format(__service_name__), self.action_settings
         )
         self.iface.addPluginToMenu(
-            "{} Extractor".format(__wfs_name__), self.action_help
+            "{} Extractor".format(__service_name__), self.action_help
         )
 
         # -- Processing
@@ -129,7 +129,7 @@ class GbifExtractorPlugin:
         self.iface.pluginHelpMenu().addSeparator()
         self.action_help_plugin_menu_documentation = QAction(
             QIcon(str(__icon_path__)),
-            f"{__wfs_name__} Extractor - Documentation",
+            f"{__service_name__} Extractor - Documentation",
             self.iface.mainWindow(),
         )
         self.action_help_plugin_menu_documentation.triggered.connect(
@@ -159,14 +159,14 @@ class GbifExtractorPlugin:
         """Cleans up when plugin is disabled/uninstalled."""
         # -- Clean up menu
         self.iface.removePluginMenu(
-            "{} Extractor".format(__wfs_name__), self.action_launch
+            "{} Extractor".format(__service_name__), self.action_launch
         )
         self.iface.removeToolBarIcon(self.action_launch)
         self.iface.removePluginMenu(
-            "{} Extractor".format(__wfs_name__), self.action_help
+            "{} Extractor".format(__service_name__), self.action_help
         )
         self.iface.removePluginMenu(
-            "{} Extractor".format(__wfs_name__), self.action_settings
+            "{} Extractor".format(__service_name__), self.action_settings
         )
 
         # -- Clean up preferences panel in QGIS settings
@@ -202,9 +202,7 @@ class GbifExtractorPlugin:
         if not self.pluginIsActive:
             self.pluginIsActive = True
             # Open Dialog
-            self.dlg = GbifExtractorDialog(
-                self.project, self.iface, self.url, self.manager
-            )
+            self.dlg = GbifExtractorDialog(self.project, self.iface, self.manager)
             self.dlg.activate_window()
             # If there is no layers, an OSM layer is added
             # to simplify the rectangle drawing
@@ -232,7 +230,7 @@ class GbifExtractorPlugin:
 
     def processing(self):
         """Processing chain if the dialog is accepted
-        Depending on user's choices, a folder can be created, the wfs is
+        Depending on user's choices, a folder can be created, the service is
         requested and the layers in the specific extent can be added to
         the QGIS project
 
@@ -317,7 +315,12 @@ class GbifExtractorPlugin:
         self.new_layer.triggerRepaint()
 
         import_data = ImportData(
-            self.manager, self.project, self.new_layer, self.dlg.extent, self.dlg
+            self.manager,
+            self.project,
+            self.new_layer,
+            self.dlg.extent,
+            self.dlg,
+            self.url,
         )
         import_data.finished_dl.connect(self.finished_import)
 

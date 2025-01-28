@@ -24,12 +24,10 @@ qgisMaximumVersion=3.99
 version=0.1.0
 changelog=
 
-[wfs]
+[service]
 plugin_name=GBIF_Extractor
 name=GBIF
-uri=https://data.geopf.fr/wfs/ows
-schema=Gbif_V3
-geometry=geometrie
+uri=https://www.gbif.org/api/occurrence/search
 crs=4326
 metadata=https://www.gbif.org/what-is-gbif
 producer=https://www.gbif.org
