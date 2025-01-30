@@ -19,7 +19,7 @@ from gbif_extractor.__about__ import __icon_path__, __title__, __version__
 
 class GbifExtractorProvider(QgsProcessingProvider):
     """
-        Processing provider class.
+    Processing provider class.
     """
 
     def loadAlgorithms(self):
@@ -47,7 +47,8 @@ class GbifExtractorProvider(QgsProcessingProvider):
 
     def longName(self) -> str:
         """Longer version of the provider name, which can include
-        extra details such as version numbers. E.g. "Lastools LIDAR tools". This string should be localised. The default
+        extra details such as version numbers. E.g. "Lastools LIDAR tools".
+        This string should be localised. The default
         implementation returns the same string as name().
 
         :return: provider long name

@@ -141,10 +141,6 @@ class RectangleDrawTool(QgsMapTool):
         )
         return geom
 
-    # def getExtent(self):
-    #     #
-    #     return self.new_extent
-
     def deactivate(self):
         # Signal to put the window on top when drawing the rectangle is over.
         pass

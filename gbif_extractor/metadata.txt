@@ -9,7 +9,7 @@ tags=GBIF,environnement,data,download
 
 # credits and contact
 author=Jules GRILLOT
-email=jules.grillot@etik.com
+email=jules.grillot@fdn.fr
 homepage=https://julesgrillot.github.io/plugin_gbif_extractor/
 repository=https://github.com/JulesGrillot/plugin_gbif_extractor
 tracker=https://github.com/JulesGrillot/plugin_gbif_extractor/issues
