@@ -167,7 +167,14 @@ class ImportData(QObject):
                             ),
                         )
                     field_index += 1
-                    new_feature.setAttribute(field_index, str(obs["eventDate"]))
+                    if "eventDate" in list(obs.keys()):
+                        new_feature.setAttribute(field_index, str(obs["eventDate"]))
+                    elif "verbatimEventDate" in list(obs.keys()):
+                        new_feature.setAttribute(
+                            field_index, str(obs["verbatimEventDate"])
+                        )
+                    else:
+                        new_feature.setAttribute(field_index, "")
                     field_index += 1
                     new_feature.setAttribute(
                         field_index, obs["_publishingOrgKey"]["title"]

@@ -162,29 +162,14 @@ class GbifExtractorDialog(QDialog):
         self.layout.addLayout(self.extent_layout)
         self.layout.insertSpacing(100, 25)
 
-        # Geom predicat
-        self.geom_layout = QGridLayout()
-        self.geom_button_group = QButtonGroup(self)
-        self.geom_button_group.setExclusive(True)
-        self.intersect_checkbox = QCheckBox(self)
-        self.intersect_checkbox.setAccessibleName("intersect")
-        self.intersect_checkbox.setChecked(True)
-        self.intersect_checkbox.setText(self.tr("Keep data intersecting the extent"))
-        self.geom_layout.addWidget(self.intersect_checkbox, 0, 0)
-        self.geom_button_group.addButton(self.intersect_checkbox)
-        self.within_checkbox = QCheckBox(self)
-        self.within_checkbox.setAccessibleName("within")
-        self.within_checkbox.setText(self.tr("Clip data intersecting the extent"))
-        self.geom_layout.addWidget(self.within_checkbox, 0, 1)
-        self.geom_button_group.addButton(self.within_checkbox)
-
         # Crs Selection
+        self.geom_layout = QHBoxLayout()
         select_crs_label = QLabel(self)
-        select_crs_label.setText(self.tr("Select outputs' coordinate system :"))
-        self.geom_layout.addWidget(select_crs_label, 1, 0)
+        select_crs_label.setText(self.tr("Select outputs'\ncoordinate system :"))
+        self.geom_layout.addWidget(select_crs_label)
         self.crs_selector = QgsProjectionSelectionWidget(self)
         self.crs_selector.setCrs(self.project.crs())
-        self.geom_layout.addWidget(self.crs_selector, 1, 1)
+        self.geom_layout.addWidget(self.crs_selector)
         self.layout.addLayout(self.geom_layout)
 
         self.result_layout = QVBoxLayout()

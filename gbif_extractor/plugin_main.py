@@ -266,10 +266,6 @@ class GbifExtractorPlugin:
         if self.dlg.add_to_project_checkbox.isChecked():
             self.project.instance().layerTreeRoot().insertGroup(0, folder)
             self.group = self.project.instance().layerTreeRoot().findGroup(folder)
-        # Fetch if the results must be clipped or kept full
-        for button in self.dlg.geom_button_group.buttons():
-            if button.isChecked():
-                result_geometry = button.accessibleName()
 
         geom_type = "Point"
         self.new_layer = QgsVectorLayer(geom_type + "?crs=epsg:4326", "GBIF", "memory")
@@ -341,13 +337,6 @@ class GbifExtractorPlugin:
                 self.project.instance().addMapLayer(self.new_layer, False)
                 self.group.addLayer(self.new_layer)
 
-        # Increase the ProgressBar value
-        # n = n + 1
-        # self.dlg.thread.add_one()
-        # self.dlg.select_progress_bar_label.setText(
-        #     self.tr("Downloaded data : " + str(n) + "/" + str(max))
-        # )
-
         # If the user wants to saved as GPKG
         if (
             self.dlg.output_format() == "gpkg"
@@ -355,7 +344,6 @@ class GbifExtractorPlugin:
         ):
             # If a layer as been saved, the GPKG is opened and every layer are
             # added to the project
-            # if (len(good_list) / n) > 0:
             if self.new_layer.featureCount() > 0:
                 gpkg = QgsVectorLayer(self.new_layer, "", "ogr")
                 layers = gpkg.dataProvider().subLayers()
