@@ -75,7 +75,7 @@ __summary__: str = "{}\n{}".format(
     __plugin_md__.get("general").get("about"),
 )
 
-__title__: str = __plugin_md__.get("general").get("name")
+__title__: str = __plugin_md__.get("service").get("plugin_name")
 __title_clean__: str = "".join(e for e in __title__ if e.isalnum())
 
 __uri_homepage__: str = __plugin_md__.get("general").get("homepage")

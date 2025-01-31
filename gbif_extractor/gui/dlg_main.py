@@ -86,7 +86,6 @@ class GbifExtractorDialog(QDialog):
         self.layout.addWidget(credit_label)
 
         pixmap = QPixmap(str(__service_logo__))
-        # pixmap.loadFromData(requests.get(__service_logo__).content)
         self.producer_label = QToolButton(self)
         self.producer_label.setObjectName(__service_credit__)
         icon = QIcon()
@@ -316,27 +315,17 @@ class GbifExtractorDialog(QDialog):
                 layer.crs(),
                 QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
             )
-            if self.getcapabilities.max_bounding_box.intersects(
-                transformed_extent
-            ):  # noqa: E501
-                if transformed_extent.area() > 100000000:
-                    msg = QMessageBox()
-                    msg.warning(
-                        None,
-                        self.tr("Warning"),
-                        self.tr(
-                            "Selected layer is very large (degraded performance)"
-                        ),  # noqa: E501
-                    )
-            else:
-                # If the layer is outside of the max extent,
-                # an eror message appear
+            if transformed_extent.area() > 100000000:
                 msg = QMessageBox()
-                msg.critical(
+                msg.warning(
                     None,
-                    self.tr("Error"),
-                    self.tr("Selected layer is outside of the WFS' extent."),
+                    self.tr("Warning"),
+                    self.tr(
+                        "Selected layer is very large (degraded performance)"
+                    ),
                 )
+            else:
+                pass
 
     def get_result(self):
         # self.select_layer_combo_box.layerChanged.disconnect(self.check_layer_size)
