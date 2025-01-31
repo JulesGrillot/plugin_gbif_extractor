@@ -1,10 +1,11 @@
 # Import basic libs
 import json
 
-# Import PyQt libs
-from PyQt5.QtCore import QObject, QUrl, pyqtSignal
-from PyQt5.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.core import NULL, QgsFeature, QgsGeometry, QgsPointXY
+
+# Import PyQt libs
+from qgis.PyQt.QtCore import QObject, QUrl, pyqtSignal
+from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
 
 
 class ImportData(QObject):
@@ -76,6 +77,7 @@ class ImportData(QObject):
         self._pending_downloads += 1
 
     def handle_finished(self, reply):
+        # TO DO improve this function
         self._pending_downloads -= 1
         if reply.error() != QNetworkReply.NoError:
             print(f"code: {reply.error()} message: {reply.errorString()}")
