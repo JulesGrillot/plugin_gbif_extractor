@@ -21,7 +21,7 @@
     <message>
         <location filename="../../gui/dlg_main.py" line="119"/>
         <source>Draw an extent to extract data :</source>
-        <translation>Dessiner une emprise pour extraire les données :</translation>
+        <translation>Tracer une emprise pour extraire les données :</translation>
     </message>
     <message>
         <location filename="../../gui/dlg_main.py" line="131"/>
@@ -76,16 +76,6 @@ en sortie :</translation>
         <translation>La couche sélectionnée est très grande (performances dégradées)</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="334"/>
-        <source>Error</source>
-        <translation>Erreur</translation>
-    </message>
-    <message>
-        <location filename="../../gui/dlg_main.py" line="334"/>
-        <source>Selected layer is outside of the WFS&apos; extent.</source>
-        <translation>La couche sélectionnée est en dehors de l&apos;emprise du WFS.</translation>
-    </message>
-    <message>
         <location filename="../../gui/dlg_main.py" line="378"/>
         <source>Select an output folder</source>
         <translation>Sélectionner un dossier de sortie</translation>
@@ -119,7 +109,7 @@ en sortie :</translation>
     <message>
         <location filename="../../plugin_main.py" line="400"/>
         <source>GBIF Services&apos; are down.</source>
-        <translation>Les services du GBIF sont arrêtés.</translation>
+        <translation>Les services du GBIF sont hors-ligne.</translation>
     </message>
     <message>
         <location filename="../../plugin_main.py" line="406"/>
@@ -176,7 +166,7 @@ pour remonter le problème.</translation>
     <message>
         <location filename="../../gui/dlg_settings.ui" line="146"/>
         <source>Version used to save settings:</source>
-        <translation>Version utilisée pour sauvegarder les paramètres :</translation>
+        <translation>Version utilisée pour sauvegarder les paramètres:</translation>
     </message>
     <message>
         <location filename="../../gui/dlg_settings.ui" line="168"/>
