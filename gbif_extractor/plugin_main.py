@@ -233,6 +233,7 @@ class GbifExtractorPlugin:
 
         """
         self.start_data_import(self.dlg.nb_obs)
+        self.dlg.show()
 
     def start_data_import(self, nb_obs):
         if nb_obs > 0:
