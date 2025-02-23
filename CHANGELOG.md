@@ -20,3 +20,11 @@ Unreleased
 
 - First release
 - Generated with the [QGIS Plugins templater](https://oslandia.gitlab.io/qgis/template-qgis-plugin/)
+
+## 0.2.0 - 2024-02-23
+
+- Layer extent correction
+- Layer export correction
+- Crs correction
+- Improve performance
+- Limit max observation downloads

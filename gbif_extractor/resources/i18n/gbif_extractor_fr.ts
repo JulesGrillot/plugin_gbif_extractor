@@ -4,141 +4,109 @@
 <context>
     <name>GbifExtractorDialog</name>
     <message>
-        <location filename="../../gui/dlg_main.py" line="85"/>
+        <location filename="../../gui/dlg_main.py" line="89"/>
         <source>Data provided by :</source>
         <translation>Données fournies par :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="101"/>
+        <location filename="../../gui/dlg_main.py" line="105"/>
         <source>Documentation</source>
         <translation>Documentation</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="108"/>
+        <location filename="../../gui/dlg_main.py" line="112"/>
         <source>Metadata</source>
         <translation>Métadonnées</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="119"/>
+        <location filename="../../gui/dlg_main.py" line="123"/>
         <source>Draw an extent to extract data :</source>
         <translation>Tracer une emprise pour extraire les données :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="131"/>
+        <location filename="../../gui/dlg_main.py" line="135"/>
         <source>Draw an extent</source>
         <translation>Tracer une emprise</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="139"/>
+        <location filename="../../gui/dlg_main.py" line="143"/>
         <source>Use layer extent to extract data :</source>
-        <translation>Utiliser l&apos;emprise d&apos;une couche pour l&apos;extraction :</translation>
+        <translation>Utiliser l'emprise d'une couche pour l'extraction :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="167"/>
+        <location filename="../../gui/dlg_main.py" line="171"/>
         <source>Select outputs&apos;
 coordinate system :</source>
-        <translation >Sélectionner la projection
+        <translation>Sélectionner la projection
 en sortie :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="177"/>
+        <location filename="../../gui/dlg_main.py" line="181"/>
         <source>Save the results :</source>
         <translation>Sauvergarder les résultats :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="182"/>
+        <location filename="../../gui/dlg_main.py" line="186"/>
         <source>Add exported data to the project</source>
         <translation>Ajouter les données exportées au projet</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="216"/>
+        <location filename="../../gui/dlg_main.py" line="220"/>
         <source>Explore folders :</source>
         <translation>Parcourir les dossiers :</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="234"/>
+        <location filename="../../gui/dlg_main.py" line="238"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="235"/>
+        <location filename="../../gui/dlg_main.py" line="239"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="323"/>
+        <location filename="../../gui/dlg_main.py" line="391"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="323"/>
-        <source>Selected layer is very large (degraded performance)</source>
-        <translation>La couche sélectionnée est très grande (performances dégradées)</translation>
-    </message>
-    <message>
-        <location filename="../../gui/dlg_main.py" line="378"/>
+        <location filename="../../gui/dlg_main.py" line="366"/>
         <source>Select an output folder</source>
         <translation>Sélectionner un dossier de sortie</translation>
+    </message>
+    <message>
+        <location filename="../../gui/dlg_main.py" line="391"/>
+        <source>Max Observation count is reached, select a smaller area.</source>
+        <translation>Le nombre d'observation maxium est atteint, sélectionnez une zone plus petite.</translation>
     </message>
 </context>
 <context>
     <name>GbifExtractorPlugin</name>
     <message>
-        <location filename="../../plugin_main.py" line="85"/>
-        <source>{} Extractor</source>
-        <translation>{} Extractor</translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="92"/>
+        <location filename="../../plugin_main.py" line="99"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="101"/>
+        <location filename="../../plugin_main.py" line="108"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
-</context>
-<context>
-    <name>InternetChecker</name>
     <message>
-        <location filename="../../plugin_main.py" line="412"/>
+        <location filename="../../plugin_main.py" line="92"/>
+        <source>{}</source>
+        <translation>GBIF Extractor</translation>
+    </message>
+    <message>
+        <location filename="../../plugin_main.py" line="290"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="400"/>
-        <source>GBIF Services&apos; are down.</source>
-        <translation>Les services du GBIF sont hors-ligne.</translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="406"/>
-        <source>You are not connected to the Internet.</source>
-        <translation>Vous n'êtes pas connecté à internet.</translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="412"/>
-        <source>Code error : {code}
-Go to
-{tracker}
-to report the issue.</source>
-        <translation>Code erreur : {code}
-Rendez-vous sur
-{tracker}
-pour remonter le problème.</translation>
-    </message>
-</context>
-<context>
-    <name>RectangleDrawTool</name>
-    <message>
-        <location filename="../../processing/rectangle_tool.py" line="125"/>
-        <source>Warning</source>
-        <translation>Attention</translation>
-    </message>
-    <message>
-        <location filename="../../processing/rectangle_tool.py" line="125"/>
-        <source>Drawned rectangle is very large (degraded performances)</source>
-        <translation>Le rectangle tracé est en dehors de l'emprise du WFS.</translation>
+        <location filename="../../plugin_main.py" line="290"/>
+        <source>No Observation in the selected extent.</source>
+        <translation>Pas d'observations dans l'emprise sélectionnée.</translation>
     </message>
 </context>
 <context>

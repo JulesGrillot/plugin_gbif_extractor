@@ -21,8 +21,9 @@ qgisMinimumVersion=3.28
 qgisMaximumVersion=3.99
 
 # versioning
-version=0.1.0
+version=0.2.0
 changelog=
+    0.2.0 correct crs, layer extent and layer export
 
 [service]
 plugin_name=GBIF_Extractor
@@ -32,3 +33,9 @@ crs=4326
 metadata=https://www.gbif.org/what-is-gbif
 producer=https://www.gbif.org
 logo=resources/images/logo.png
+per_page_limit=20
+obs_limit=10000
+
+[export]
+layer_name=GBIF_Export
+layer_source_name=gbif_extract

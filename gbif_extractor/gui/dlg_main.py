@@ -6,23 +6,6 @@
 
 import os
 
-# PyQt
-from PyQt5.QtCore import QSize, QThread, pyqtSignal
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (
-    QButtonGroup,
-    QCheckBox,
-    QFileDialog,
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QProgressBar,
-    QToolButton,
-    QVBoxLayout,
-    QWidget,
-)
-
 # PyQGIS
 from qgis.core import (
     QgsCoordinateReferenceSystem,
@@ -32,19 +15,39 @@ from qgis.core import (
 )
 from qgis.gui import QgsMapLayerComboBox, QgsProjectionSelectionWidget
 from qgis.PyQt.Qt import QUrl
-from qgis.PyQt.QtGui import QDesktopServices, QIcon
-from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QMessageBox, QPushButton
+
+# PyQt
+from qgis.PyQt.QtCore import QSize, QThread, pyqtSignal
+from qgis.PyQt.QtGui import QDesktopServices, QIcon, QPixmap
+from qgis.PyQt.QtWidgets import (
+    QButtonGroup,
+    QCheckBox,
+    QDialog,
+    QDialogButtonBox,
+    QFileDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QProgressBar,
+    QPushButton,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 # project
 from gbif_extractor.__about__ import (
+    __obs_limit__,
+    __plugin_name__,
     __service_credit__,
     __service_crs__,
     __service_logo__,
     __service_metadata__,
-    __service_name__,
     __uri_homepage__,
 )
-from gbif_extractor.processing import RectangleDrawTool
+from gbif_extractor.processing import MaxObs, RectangleDrawTool
 
 # ############################################################################
 # ########## Classes ###############
@@ -52,7 +55,7 @@ from gbif_extractor.processing import RectangleDrawTool
 
 
 class GbifExtractorDialog(QDialog):
-    def __init__(self, project=None, iface=None, manager=None):
+    def __init__(self, project=None, iface=None, manager=None, url=None):
         """Constructor.
         :param
         project: The current QGIS project instance
@@ -62,17 +65,18 @@ class GbifExtractorDialog(QDialog):
         url: The wfs url
         """
         super(GbifExtractorDialog, self).__init__()
-        self.setObjectName("{} Extractor".format(__service_name__))
+        self.setObjectName("{}".format(__plugin_name__))
 
         self.iface = iface
         self.project = project
         self.manager = manager
+        self.url = url
         self.canvas = self.iface.mapCanvas()
 
         self.layer = None
         self.rectangle = None
 
-        self.setWindowTitle("{} Extractor".format(__service_name__))
+        self.setWindowTitle("{}".format(__plugin_name__))
 
         self.layout = QVBoxLayout()
         extent_check_group = QButtonGroup(self)
@@ -149,7 +153,7 @@ class GbifExtractorDialog(QDialog):
         self.select_layer_combo_box.setFilters(
             QgsMapLayerProxyModel.PolygonLayer
             | QgsMapLayerProxyModel.LineLayer
-            | QgsMapLayerProxyModel.RasterLayer
+            | QgsMapLayerProxyModel.PointLayer
         )
         self.select_layer_combo_box.layerChanged.connect(self.check_layer_size)
         self.select_layer_combo_box.setEnabled(False)
@@ -302,7 +306,7 @@ class GbifExtractorDialog(QDialog):
 
     def set_rectangle_tool(self):
         self.rectangle_tool = RectangleDrawTool(self.project, self.canvas)
-        self.rectangle_tool.signal.connect(self.activate_window)
+        self.rectangle_tool.signal.connect(self.rectangle_drawned)
         self.draw_rectangle_button.setEnabled(True)
 
     def check_layer_size(self):
@@ -315,20 +319,14 @@ class GbifExtractorDialog(QDialog):
                 layer.crs(),
                 QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
             )
-            if transformed_extent.area() > 100000000:
-                msg = QMessageBox()
-                msg.warning(
-                    None,
-                    self.tr("Warning"),
-                    self.tr(
-                        "Selected layer is very large (degraded performance)"
-                    ),
-                )
-            else:
-                pass
+            get_max_obs = MaxObs(
+                self.manager,
+                transformed_extent,
+                self.url,
+            )
+            get_max_obs.finished_dl.connect(lambda: self.update_nb_obs(get_max_obs))
 
     def get_result(self):
-        # self.select_layer_combo_box.layerChanged.disconnect(self.check_layer_size)
         # Accepted result from the dialog
         # If the extent is from a drawn rectangle
         if self.draw_rectangle_checkbox.isChecked():
@@ -355,13 +353,13 @@ class GbifExtractorDialog(QDialog):
         if self.progress_bar.value() == 101:
             self.progress_bar.setValue(0)
 
-    def output_format(self):
+    def selected_output_format(self):
         # Function to get the requested output format
-        format = ""
+        output_format = ""
         for button in self.output_format_button_group.buttons():
             if button.isChecked():
-                format = button.accessibleName()
-        return format
+                output_format = button.accessibleName()
+        return output_format
 
     def select_output_folder(self):
         # Function to use the OS explorer and select an output directory
@@ -378,14 +376,24 @@ class GbifExtractorDialog(QDialog):
         # Check if different conditions are True to enable the OK button.
         # Check if there is a rectangle
         if self.rectangle:
-            # If the result must be saved the output directory must exists.
-            if self.save_result_checkbox.isChecked():
-                if os.path.exists(self.line_edit_output_folder.text()):
-                    self.button_box.setEnabled(True)
+            # Check if max obs number is reached
+            if self.nb_obs <= int(__obs_limit__):
+                # If the result must be saved the output directory must exists.
+                if self.save_result_checkbox.isChecked():
+                    if os.path.exists(self.line_edit_output_folder.text()):
+                        self.button_box.setEnabled(True)
+                    else:
+                        self.button_box.setEnabled(False)
                 else:
-                    self.button_box.setEnabled(False)
+                    self.button_box.setEnabled(True)
             else:
-                self.button_box.setEnabled(True)
+                msg = QMessageBox()
+                msg.warning(
+                    None,
+                    self.tr("Warning"),
+                    self.tr("Max Observation count is reached, select a smaller area."),
+                )
+                self.button_box.setEnabled(False)
         else:
             self.button_box.setEnabled(False)
         # If the result is saved as a temporary output,
@@ -427,18 +435,28 @@ class GbifExtractorDialog(QDialog):
 
     def pointer(self):
         # Add the tool to draw a rectangle
-        # self.setVisible(False)
         self.showMinimized()
         self.iface.mainWindow().activateWindow()
         self.canvas.setMapTool(self.rectangle_tool)
+
+    def rectangle_drawned(self):
+        self.rectangle = True
+        get_max_obs = MaxObs(
+            self.manager,
+            self.rectangle_tool.new_extent,
+            self.url,
+        )
+        get_max_obs.finished_dl.connect(lambda: self.update_nb_obs(get_max_obs))
+
+    def update_nb_obs(self, sender):
+        self.nb_obs = sender.nb_obs
+        self.activate_window()
 
     def activate_window(self):
         # Put the dialog on top once the rectangle is drawn
         self.showNormal()
         self.activateWindow()
-        self.rectangle = True
         self.check_path()
-        # self.button_box.setEnabled(True)
 
 
 class Thread(QThread):

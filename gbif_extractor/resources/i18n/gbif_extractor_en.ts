@@ -4,146 +4,107 @@
 <context>
     <name>GbifExtractorDialog</name>
     <message>
-        <location filename="../../gui/dlg_main.py" line="85"/>
+        <location filename="../../gui/dlg_main.py" line="89"/>
         <source>Data provided by :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="101"/>
+        <location filename="../../gui/dlg_main.py" line="105"/>
         <source>Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="108"/>
+        <location filename="../../gui/dlg_main.py" line="112"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="119"/>
+        <location filename="../../gui/dlg_main.py" line="123"/>
         <source>Draw an extent to extract data :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="131"/>
+        <location filename="../../gui/dlg_main.py" line="135"/>
         <source>Draw an extent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="139"/>
+        <location filename="../../gui/dlg_main.py" line="143"/>
         <source>Use layer extent to extract data :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="167"/>
+        <location filename="../../gui/dlg_main.py" line="171"/>
         <source>Select outputs&apos;
 coordinate system :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="177"/>
+        <location filename="../../gui/dlg_main.py" line="181"/>
         <source>Save the results :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="182"/>
+        <location filename="../../gui/dlg_main.py" line="186"/>
         <source>Add exported data to the project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="216"/>
+        <location filename="../../gui/dlg_main.py" line="220"/>
         <source>Explore folders :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="234"/>
+        <location filename="../../gui/dlg_main.py" line="238"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="235"/>
+        <location filename="../../gui/dlg_main.py" line="239"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="323"/>
+        <location filename="../../gui/dlg_main.py" line="391"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/dlg_main.py" line="323"/>
-        <source>Selected layer is very large (degraded performance)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/dlg_main.py" line="334"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/dlg_main.py" line="334"/>
-        <source>Selected layer is outside of the WFS&apos; extent.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/dlg_main.py" line="378"/>
+        <location filename="../../gui/dlg_main.py" line="366"/>
         <source>Select an output folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/dlg_main.py" line="391"/>
+        <source>Max Observation count is reached, select a smaller area.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>GbifExtractorPlugin</name>
     <message>
-        <location filename="../../plugin_main.py" line="85"/>
-        <source>{} Extractor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="92"/>
+        <location filename="../../plugin_main.py" line="99"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="101"/>
+        <location filename="../../plugin_main.py" line="108"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>InternetChecker</name>
     <message>
-        <location filename="../../plugin_main.py" line="412"/>
+        <location filename="../../plugin_main.py" line="92"/>
+        <source>{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin_main.py" line="290"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="400"/>
-        <source>GBIF Services&apos; are down.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="406"/>
-        <source>You are not connected to the Internet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../plugin_main.py" line="412"/>
-        <source>Code error : {code}
-Go to
-{tracker}
-to report the issue.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RectangleDrawTool</name>
-    <message>
-        <location filename="../../processing/rectangle_tool.py" line="125"/>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../processing/rectangle_tool.py" line="125"/>
-        <source>Drawned rectangle is very large (degraded performances)</source>
+        <location filename="../../plugin_main.py" line="290"/>
+        <source>No Observation in the selected extent.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

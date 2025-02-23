@@ -1,5 +1,5 @@
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QColor
+# project
+from inaturalist_extractor.__about__ import __service_crs__
 from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsCoordinateTransform,
@@ -9,10 +9,8 @@ from qgis.core import (
     QgsWkbTypes,
 )
 from qgis.gui import QgsMapMouseEvent, QgsMapTool, QgsRubberBand
-from qgis.PyQt.QtWidgets import QMessageBox
-
-# project
-from gbif_extractor.__about__ import __service_crs__
+from qgis.PyQt.QtCore import Qt, pyqtSignal
+from qgis.PyQt.QtGui import QColor
 
 
 class RectangleDrawTool(QgsMapTool):
@@ -111,21 +109,6 @@ class RectangleDrawTool(QgsMapTool):
                 )
                 self.end_point = QgsPointXY(
                     end_point.asPoint().x(), end_point.asPoint().y()
-                )
-
-            drawned_rectangle = self.transform_geom(
-                QgsGeometry().fromRect(QgsRectangle(self.start_point, self.end_point)),
-                QgsCoordinateReferenceSystem("EPSG:" + str(__service_crs__)),
-                self.project.crs(),
-            )
-            transformed_extent = drawned_rectangle.boundingBox()
-            # If the drawn rectangle is too big, an error message appear
-            if transformed_extent.area() > 100000000:
-                msg = QMessageBox()
-                msg.warning(
-                    None,
-                    self.tr("Warning"),
-                    self.tr("Drawned rectangle is very large (degraded performances)"),
                 )
 
             return QgsRectangle(self.start_point, self.end_point)

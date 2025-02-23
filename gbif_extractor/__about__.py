@@ -59,7 +59,7 @@ def plugin_metadata_as_dict() -> dict:
 
 # store full metadata.txt as dict into a var
 __plugin_md__: dict = plugin_metadata_as_dict()
-
+__plugin_name__: str = __plugin_md__.get("general").get("name")
 __author__: str = __plugin_md__.get("general").get("author")
 __copyright__: str = "2024 - {0}, {1}".format(date.today().year, __author__)
 __email__: str = __plugin_md__.get("general").get("email")
@@ -96,9 +96,14 @@ __service_uri__: str = __plugin_md__.get("service").get("uri")
 __service_crs__: str = __plugin_md__.get("service").get("crs")
 __service_metadata__: str = __plugin_md__.get("service").get("metadata")
 __service_credit__: str = __plugin_md__.get("service").get("producer")
+__per_page_limit__: str = __plugin_md__.get("service").get("per_page_limit")
+__obs_limit__: str = __plugin_md__.get("service").get("obs_limit")
 __service_logo__: Path = DIR_PLUGIN_ROOT.resolve() / __plugin_md__.get("service").get(
     "logo"
 )
+
+__layer_name__: str = __plugin_md__.get("export").get("layer_name")
+__layer_source_name__: str = __plugin_md__.get("export").get("layer_source_name")
 
 # #############################################################################
 # ##### Main #######################
