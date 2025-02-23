@@ -21,9 +21,10 @@ qgisMinimumVersion=3.28
 qgisMaximumVersion=3.99
 
 # versioning
-version=0.2.0
+version=0.2.1
 changelog=
     0.2.0 correct crs, layer extent and layer export
+    0.2.1 make dialog appear again after launching extraction
 
 [service]
 plugin_name=GBIF_Extractor
