@@ -216,7 +216,10 @@ class ImportData(QObject):
             else:
                 new_feature.setAttribute(field_index, NULL)
             field_index += 1
-            new_feature.setAttribute(field_index, str(obs["acceptedTaxonKey"]))
+            if "acceptedTaxonKey" in list(obs.keys()):
+                new_feature.setAttribute(field_index, str(obs["acceptedTaxonKey"]))
+            else:
+                new_feature.setAttribute(field_index, NULL)
             field_index += 1
             if "taxonID" in list(obs.keys()):
                 new_feature.setAttribute(field_index, str(obs["taxonID"]))
@@ -258,6 +261,13 @@ class ImportData(QObject):
             field_index += 1
             new_feature.setAttribute(field_index, obs["_datasetKey"]["title"])
             field_index += 1
+            if "coordinateUncertaintyInMeters" in list(obs.keys()):
+                new_feature.setAttribute(
+                    field_index, str(obs["coordinateUncertaintyInMeters"])
+                )
+            else:
+                new_feature.setAttribute(field_index, NULL)
+            field_index += 1
             if "informationWithheld" in list(obs.keys()):
                 new_feature.setAttribute(field_index, str(obs["informationWithheld"]))
             else:
@@ -268,5 +278,13 @@ class ImportData(QObject):
                 "https://www.gbif.org/fr/occurrence/" + str(obs["key"]),
             )
             field_index += 1
-            # Add the feature to the layer.
-            self.new_features.append(new_feature)
+            if "acceptedTaxonKey" in list(obs.keys()):
+                new_feature.setAttribute(
+                    field_index,
+                    "https://www.gbif.org/fr/species/" + str(obs["acceptedTaxonKey"]),
+                )
+            else:
+                new_feature.setAttribute(field_index, NULL)
+
+        # Add the feature to the layer.
+        self.new_features.append(new_feature)

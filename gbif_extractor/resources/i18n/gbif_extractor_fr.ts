@@ -99,14 +99,51 @@ en sortie :</translation>
         <translation>GBIF Extractor</translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="290"/>
+        <location filename="../../plugin_main.py" line="291"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../../plugin_main.py" line="290"/>
+        <location filename="../../plugin_main.py" line="291"/>
         <source>No Observation in the selected extent.</source>
         <translation>Pas d'observations dans l'emprise sélectionnée.</translation>
+    </message>
+</context>
+<context>
+    <name>ImportData</name>
+    <message>
+        <location filename="../../processing/import_data.py" line="140"/>
+        <source>Downloaded data : </source>
+        <translation>Données téléchargées :</translation>
+    </message>
+</context>
+<context>
+    <name>InternetChecker</name>
+    <message>
+        <location filename="../../toolbelt/internet_checker.py" line="53"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="../../toolbelt/internet_checker.py" line="41"/>
+        <source>Github is down.</source>
+        <translation>Github est injoignable.</translation>
+    </message>
+    <message>
+        <location filename="../../toolbelt/internet_checker.py" line="47"/>
+        <source>You are not connected to the Internet.</source>
+        <translation>Vous n'êtes pas connecté à internet.</translation>
+    </message>
+    <message>
+        <location filename="../../toolbelt/internet_checker.py" line="53"/>
+        <source>Code error : {code}
+Go to
+{tracker}
+to report the issue.</source>
+        <translation>Code erreur : {code}
+Rendez-vous ici
+{tracker}
+pour renseigner le problème.</translation>
     </message>
 </context>
 <context>

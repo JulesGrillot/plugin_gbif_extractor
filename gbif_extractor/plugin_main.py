@@ -428,10 +428,16 @@ class GbifExtractorPlugin:
         )
         self.new_layer.addAttribute(QgsField("project", QVariant.String, "string", 254))
         self.new_layer.addAttribute(
+            QgsField("precision", QVariant.String, "string", 254)
+        )
+        self.new_layer.addAttribute(
             QgsField("information", QVariant.String, "string", 254)
         )
         self.new_layer.addAttribute(
             QgsField("gbif_url", QVariant.String, "string", 254)
+        )
+        self.new_layer.addAttribute(
+            QgsField("taxon_url", QVariant.String, "string", 254)
         )
         self.new_layer.commitChanges()
         self.new_layer.triggerRepaint()
