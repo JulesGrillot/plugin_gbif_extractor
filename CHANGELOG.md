@@ -29,6 +29,11 @@ Unreleased
 - Improve performance
 - Limit max observation downloads
 
-## 0.2.1 - 2024-02-23
+## 0.2.1 - 2025-02-23
 
 - Make dialog appear again after launching extraction
+
+## 0.2.1 - 2025-02-25
+
+- Correct fields error
+- Make translation for missing files

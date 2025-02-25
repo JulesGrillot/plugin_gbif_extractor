@@ -25,6 +25,7 @@ version=0.2.1
 changelog=
     0.2.0 correct crs, layer extent and layer export
     0.2.1 make dialog appear again after launching extraction
+    0.2.2 correct fields error and translation
 
 [service]
 plugin_name=GBIF_Extractor
