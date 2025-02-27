@@ -79,6 +79,11 @@ coordinate system :</source>
         <source>Max Observation count is reached, select a smaller area.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../gui/dlg_main.py" line="455"/>
+        <source>Data to download : </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GbifExtractorPlugin</name>

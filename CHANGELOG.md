@@ -33,7 +33,11 @@ Unreleased
 
 - Make dialog appear again after launching extraction
 
-## 0.2.1 - 2025-02-25
+## 0.2.2 - 2025-02-25
 
 - Correct fields error
 - Make translation for missing files
+
+## 0.2.3 - 2025-02-27
+
+- Minor corrections

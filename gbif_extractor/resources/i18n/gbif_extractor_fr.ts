@@ -80,6 +80,11 @@ en sortie :</translation>
         <source>Max Observation count is reached, select a smaller area.</source>
         <translation>Le nombre d'observation maxium est atteint, sélectionnez une zone plus petite.</translation>
     </message>
+    <message>
+        <location filename="../../gui/dlg_main.py" line="455"/>
+        <source>Data to download : </source>
+        <translation>Données à téléchargées :</translation>
+    </message>
 </context>
 <context>
     <name>GbifExtractorPlugin</name>
