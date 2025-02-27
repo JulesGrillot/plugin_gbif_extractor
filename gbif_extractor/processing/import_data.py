@@ -286,5 +286,5 @@ class ImportData(QObject):
             else:
                 new_feature.setAttribute(field_index, NULL)
 
-        # Add the feature to the layer.
-        self.new_features.append(new_feature)
+            # Add the feature to the layer.
+            self.new_features.append(new_feature)

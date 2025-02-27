@@ -407,10 +407,12 @@ class GbifExtractorDialog(QDialog):
         if self.select_layer_checkbox.isChecked():
             if self.select_layer_combo_box is None:
                 self.rectangle = None
+                self.select_progress_bar_label.setText("")
             else:
                 self.rectangle = True
         elif self.draw_rectangle_checkbox.isChecked():
             self.rectangle = None
+            self.select_progress_bar_label.setText("")
 
     def transform_crs(self, rectangle, input_crs, output_crs):
         # Reproject a rectangle to the project crs
@@ -450,6 +452,9 @@ class GbifExtractorDialog(QDialog):
 
     def update_nb_obs(self, sender):
         self.nb_obs = sender.nb_obs
+        self.select_progress_bar_label.setText(
+            self.tr("Data to download : " + str(self.nb_obs))
+        )
         self.activate_window()
 
     def activate_window(self):
