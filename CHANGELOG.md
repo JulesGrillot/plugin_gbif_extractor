@@ -41,3 +41,8 @@ Unreleased
 ## 0.2.3 - 2025-02-27
 
 - Minor corrections
+
+## 0.2.4 - 2025-04-04
+
+- Correction of library import
+- Translation correction

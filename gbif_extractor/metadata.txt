@@ -1,6 +1,6 @@
 [general]
 name=GBIF Extractor
-about=This plugin allow to download GBIF data.
+about=This plugin allows to download GBIF data.
 category=Database
 hasProcessingProvider=False
 description=Based on an extent, the user can download GBIF data.
@@ -21,12 +21,13 @@ qgisMinimumVersion=3.28
 qgisMaximumVersion=3.99
 
 # versioning
-version=0.2.3
+version=0.2.4
 changelog=
     0.2.0 correct crs, layer extent and layer export
     0.2.1 make dialog appear again after launching extraction
     0.2.2 correct fields error and translation
     0.2.3 minor corrections
+    0.2.4 library corrections, translation
 
 [service]
 plugin_name=GBIF_Extractor

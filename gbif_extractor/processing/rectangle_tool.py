@@ -1,5 +1,4 @@
 # project
-from inaturalist_extractor.__about__ import __service_crs__
 from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsCoordinateTransform,
@@ -11,6 +10,8 @@ from qgis.core import (
 from qgis.gui import QgsMapMouseEvent, QgsMapTool, QgsRubberBand
 from qgis.PyQt.QtCore import Qt, pyqtSignal
 from qgis.PyQt.QtGui import QColor
+
+from gbif_extractor.__about__ import __service_crs__
 
 
 class RectangleDrawTool(QgsMapTool):

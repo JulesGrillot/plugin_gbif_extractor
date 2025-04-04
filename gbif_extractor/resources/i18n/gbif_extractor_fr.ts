@@ -78,7 +78,7 @@ en sortie :</translation>
     <message>
         <location filename="../../gui/dlg_main.py" line="391"/>
         <source>Max Observation count is reached, select a smaller area.</source>
-        <translation>Le nombre d'observation maxium est atteint, sélectionnez une zone plus petite.</translation>
+        <translation>Le nombre d'observation maxmium est atteint, sélectionnez une zone plus petite.</translation>
     </message>
     <message>
         <location filename="../../gui/dlg_main.py" line="455"/>
@@ -111,7 +111,7 @@ en sortie :</translation>
     <message>
         <location filename="../../plugin_main.py" line="291"/>
         <source>No Observation in the selected extent.</source>
-        <translation>Pas d'observations dans l'emprise sélectionnée.</translation>
+        <translation>Pas d'observation dans l'emprise sélectionnée.</translation>
     </message>
 </context>
 <context>
